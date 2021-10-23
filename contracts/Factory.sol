@@ -16,13 +16,14 @@ contract Factory is Ownable, Registry{
     }
 
     function createToken(uint256 nftID, uint256 supply, address initialOwner) external onlyOwner {
-        BaseToken newToken = BaseToken(Clones.cloneDeterministic(address(base), keccak256(abi.encodePacked(nftID))));
+        bytes32 salt = keccak256(abi.encodePacked(nftID));
+        BaseToken newToken = BaseToken(Clones.predictDeterministicAddress(address(base), salt));
         
         bytes memory name = abi.encodePacked(bytes("NFT: "), nftID);
         bytes memory symbol =  abi.encodePacked(bytes("NFT-"), nftID);
-        
-        setTokenAddress(nftID, address(newToken));    
-        
+        setTokenAddress(nftID, address(newToken));
+
+        Clones.cloneDeterministic(address(base), salt);
         newToken.initialize(supply, initialOwner, string(name), string(symbol));
     }
 }
