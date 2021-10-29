@@ -7,6 +7,8 @@ import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 import "@nomiclabs/hardhat-etherscan";
 import "solidity-coverage";
+import "hardhat-deploy";
+import "@nomiclabs/hardhat-ethers";
 
 const INFURA_API_KEY = process.env.INFURA_API_KEY || "";
 const RINKEBY_PRIVATE_KEY =
@@ -17,7 +19,7 @@ const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   solidity: {
-    compilers: [{ version: "0.8.0", settings: {} }],
+    compilers: [{ version: "0.8.9", settings: {} }],
   },
   networks: {
     hardhat: {},
@@ -34,6 +36,10 @@ const config: HardhatUserConfig = {
     // Your API key for Etherscan
     // Obtain one at https://etherscan.io/
     apiKey: ETHERSCAN_API_KEY,
+  },
+  namedAccounts: {
+    deployer: 0,
+    user: 1,
   },
 };
 
